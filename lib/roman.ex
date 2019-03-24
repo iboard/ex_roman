@@ -21,15 +21,16 @@ defmodule Roman do
     roman_str
     |> to_character_list()
     |> Enum.map(&map_char_to_value/1)
-    |> sum_digits()
+    |> sum_numerals()
   end
 
-  defp sum_digits(roman_chars) when is_list(roman_chars) do
+  defp sum_numerals(numeral_values) when is_list(numeral_values) do
     {sum, _} =
-      Enum.reverse(roman_chars)
-      |> Enum.reduce({0, 0}, fn digit, {sum, last_digit} ->
-        new_sum = sum + calculate_new_summand(last_digit, digit)
-        {new_sum, digit}
+      Enum.reverse(numeral_values)
+      # since we traverse the list from the back the previously remembered value is actually the following one
+      |> Enum.reduce({0, 0}, fn numeral_value, {sum, following_numeral_value} ->
+        new_sum = sum + calculate_new_summand(numeral_value, following_numeral_value)
+        {new_sum, numeral_value}
       end)
 
     sum
@@ -43,11 +44,17 @@ defmodule Roman do
     |> Enum.slice(1..-2)
   end
 
-  defp calculate_new_summand(last_digit, digit) when last_digit <= digit do
-    digit
+  # In the case of decreasing order of numerals the numerals are just added.
+  defp calculate_new_summand(numeral_value, following_numeral_value)
+       when numeral_value >= following_numeral_value do
+    numeral_value
   end
 
-  defp calculate_new_summand(_last_digit, digit), do: -digit
+  # In case a smaller numeral precedes a bigger one, like in 'IV',
+  # the smaller numeral is subtracted instead of added.
+  defp calculate_new_summand(numeral_value, _following_numeral_value) do
+    -numeral_value
+  end
 
   defp map_char_to_value("I"), do: 1
   defp map_char_to_value("V"), do: 5
