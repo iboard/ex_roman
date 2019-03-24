@@ -38,7 +38,7 @@ defmodule Roman do
 
   defp to_character_list(str) do
     str
-    # returns additional "" at begin and end
+    # splitting by "" returns additional "" at begin and end
     |> String.split("")
     # remove additional ""
     |> Enum.slice(1..-2)
