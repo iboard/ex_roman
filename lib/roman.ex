@@ -20,7 +20,7 @@ defmodule Roman do
   def to_integer(roman_str) when is_binary(roman_str) do
     roman_str
     |> to_character_list()
-    |> Enum.map(&map_char_to_value/1)
+    |> Enum.map(&map_numeral_to_value/1)
     |> sum_numerals()
   end
 
@@ -56,12 +56,12 @@ defmodule Roman do
     -numeral_value
   end
 
-  defp map_char_to_value("I"), do: 1
-  defp map_char_to_value("V"), do: 5
-  defp map_char_to_value("X"), do: 10
-  defp map_char_to_value("L"), do: 50
-  defp map_char_to_value("C"), do: 100
-  defp map_char_to_value("D"), do: 500
-  defp map_char_to_value("M"), do: 1000
-  defp map_char_to_value(ch), do: raise("Invalid Roman numeral '#{ch}'")
+  defp map_numeral_to_value("I"), do: 1
+  defp map_numeral_to_value("V"), do: 5
+  defp map_numeral_to_value("X"), do: 10
+  defp map_numeral_to_value("L"), do: 50
+  defp map_numeral_to_value("C"), do: 100
+  defp map_numeral_to_value("D"), do: 500
+  defp map_numeral_to_value("M"), do: 1000
+  defp map_numeral_to_value(ch), do: raise("Invalid Roman numeral '#{ch}'")
 end
