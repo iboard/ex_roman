@@ -1,24 +1,24 @@
-defmodule Roman do
+defmodule RomanNumerals do
   @doc """
-  Convert a String of roman numerals into integer value
+  Convert a String of Roman numerals into its corresponding integer value
 
   ### Examples: 
 
-      iex> Roman.to_integer("I")
+      iex> RomanNumerals.to_integer("I")
       1
 
-      iex> Roman.to_integer("III")
+      iex> RomanNumerals.to_integer("III")
       3
 
-      iex> Roman.to_integer("iV")
+      iex> RomanNumerals.to_integer("iV")
       ** (RuntimeError) Invalid Roman numeral 'i'
 
-      iex> Roman.to_integer("IV")
+      iex> RomanNumerals.to_integer("IV")
       4
   """
 
-  def to_integer(roman_str) when is_binary(roman_str) do
-    roman_str
+  def to_integer(roman_numerals) when is_binary(roman_numerals) do
+    roman_numerals
     |> to_character_list()
     |> Enum.map(&map_numeral_to_value/1)
     |> sum_numerals()

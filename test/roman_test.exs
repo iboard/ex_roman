@@ -1,19 +1,19 @@
 defmodule RomanTest do
   use ExUnit.Case
-  doctest Roman
+  doctest RomanNumerals
 
   test "Simple cases" do
-    assert 1 == Roman.to_integer("I")
-    assert 5 == Roman.to_integer("V")
+    assert 1 == RomanNumerals.to_integer("I")
+    assert 5 == RomanNumerals.to_integer("V")
 
-    assert 2 == Roman.to_integer("II")
-    assert 3 == Roman.to_integer("III")
+    assert 2 == RomanNumerals.to_integer("II")
+    assert 3 == RomanNumerals.to_integer("III")
   end
 
   test "Combined cases" do
-    assert 6 == Roman.to_integer("VI")
-    assert 4 == Roman.to_integer("IV")
+    assert 6 == RomanNumerals.to_integer("VI")
+    assert 4 == RomanNumerals.to_integer("IV")
 
-    assert 1660 == Roman.to_integer("MDCLX")
+    assert 1660 == RomanNumerals.to_integer("MDCLX")
   end
 end
