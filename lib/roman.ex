@@ -1,6 +1,6 @@
 defmodule Roman do
   @doc """
-  Convert a String of roman numbers into integer value
+  Convert a String of roman numerals into integer value
 
   ### Examples: 
 
@@ -11,7 +11,7 @@ defmodule Roman do
       3
 
       iex> Roman.to_integer("iV")
-      ** (RuntimeError) Invalid character i
+      ** (RuntimeError) Invalid Roman numeral 'i'
 
       iex> Roman.to_integer("IV")
       4
@@ -56,5 +56,5 @@ defmodule Roman do
   defp map_char_to_value("C"), do: 100
   defp map_char_to_value("D"), do: 500
   defp map_char_to_value("M"), do: 1000
-  defp map_char_to_value(ch), do: raise("Invalid character #{ch}")
+  defp map_char_to_value(ch), do: raise("Invalid Roman numeral '#{ch}'")
 end
