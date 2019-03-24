@@ -29,9 +29,12 @@ defmodule RomanNumerals do
       Enum.reverse(numeral_values)
       # since we traverse the list from the back the previously remembered value is actually the following one
       |> Enum.reduce({0, 0}, fn
-        numeral_value, {sum, following_numeral_value} when numeral_value >= following_numeral_value ->
+        # in case of decreasing numerals the values are just added
+        numeral_value, {sum, following_numeral_value}
+        when numeral_value >= following_numeral_value ->
           {sum + numeral_value, numeral_value}
 
+        # in case of a smaller numeral before a bigger one, like in "IV', the smaller value is subtracted instead of added
         numeral_value, {sum, _following_numeral_value} ->
           {sum - numeral_value, numeral_value}
       end)
