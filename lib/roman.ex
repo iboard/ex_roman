@@ -19,7 +19,7 @@ defmodule Roman do
 
   def to_decimal(roman_str) when is_binary(roman_str) do
     roman_str
-    |> to_character_list()
+    |> String.split("", trim: true)
     |> Enum.map(&map_char_to_value/1)
     |> sum_digits()
   end
@@ -27,27 +27,16 @@ defmodule Roman do
   defp sum_digits(roman_chars) when is_list(roman_chars) do
     {sum, _} =
       Enum.reverse(roman_chars)
-      |> Enum.reduce({0, 0}, fn digit, {sum, last_digit} ->
-        new_sum = sum + calculate_new_summand(last_digit, digit)
-        {new_sum, digit}
+      |> Enum.reduce({0, 0}, fn
+        digit, {sum, last_digit} when last_digit <= digit ->
+          {sum + digit, digit}
+
+        digit, {sum, _last_digit} ->
+          {sum - digit, digit}
       end)
 
     sum
   end
-
-  defp to_character_list(str) do
-    str
-    # returns additional "" at begin and end
-    |> String.split("")
-    # remove additional ""
-    |> Enum.slice(1..-2)
-  end
-
-  defp calculate_new_summand(last_digit, digit) when last_digit <= digit do
-    digit
-  end
-
-  defp calculate_new_summand(_last_digit, digit), do: -digit
 
   defp map_char_to_value("I"), do: 1
   defp map_char_to_value("V"), do: 5
