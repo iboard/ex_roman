@@ -19,7 +19,7 @@ defmodule RomanNumerals do
 
   def to_integer(roman_numerals) when is_binary(roman_numerals) do
     roman_numerals
-    |> to_character_list()
+    |> String.split("", trim: true)
     |> Enum.map(&map_numeral_to_value/1)
     |> sum_numerals()
   end
@@ -28,32 +28,15 @@ defmodule RomanNumerals do
     {sum, _} =
       Enum.reverse(numeral_values)
       # since we traverse the list from the back the previously remembered value is actually the following one
-      |> Enum.reduce({0, 0}, fn numeral_value, {sum, following_numeral_value} ->
-        new_sum = sum + calculate_new_summand(numeral_value, following_numeral_value)
-        {new_sum, numeral_value}
+      |> Enum.reduce({0, 0}, fn
+        numeral_value, {sum, following_numeral_value} when numeral_value >= following_numeral_value ->
+          {sum + numeral_value, numeral_value}
+
+        numeral_value, {sum, _following_numeral_value} ->
+          {sum - numeral_value, numeral_value}
       end)
 
     sum
-  end
-
-  defp to_character_list(str) do
-    str
-    # splitting by "" returns additional "" at begin and end
-    |> String.split("")
-    # remove additional ""
-    |> Enum.slice(1..-2)
-  end
-
-  # In the case of decreasing order of numerals the numerals are just added.
-  defp calculate_new_summand(numeral_value, following_numeral_value)
-       when numeral_value >= following_numeral_value do
-    numeral_value
-  end
-
-  # In case a smaller numeral precedes a bigger one, like in 'IV',
-  # the smaller numeral is subtracted instead of added.
-  defp calculate_new_summand(numeral_value, _following_numeral_value) do
-    -numeral_value
   end
 
   defp map_numeral_to_value("I"), do: 1
